@@ -25,7 +25,9 @@ internal class FilmViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { _filmState.value = FilmState.Success(it) },
+                    {
+                        _filmState.value = FilmState.Success(it)
+                    },
                     { _filmState.value = FilmState.Error }
                 )
         )

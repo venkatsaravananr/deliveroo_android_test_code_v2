@@ -12,7 +12,8 @@ object Fixtures {
             overview = "Kevin Costner on a boat",
             posterPath = "/123.jpg",
             backdropPath = "/456.jpg",
-            voteAverage = "5.5"
+            voteAverage = "5.5",
+            genreIds = emptyList()
         )
     }
 

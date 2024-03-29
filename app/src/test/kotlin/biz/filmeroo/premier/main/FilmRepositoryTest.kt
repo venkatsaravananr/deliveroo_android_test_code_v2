@@ -2,6 +2,7 @@ package biz.filmeroo.premier.main
 
 import biz.filmeroo.premier.api.ApiFilm
 import biz.filmeroo.premier.api.FilmService
+import biz.filmeroo.premier.api.SimilarMoviesResponse
 import biz.filmeroo.premier.support.Fixtures
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -41,6 +42,17 @@ class FilmRepositoryTest {
         val result = repository.fetchMovie(2).test()
 
         verify(service).movie(2)
+        assertThat(result.values()[0]).isEqualTo(movie)
+    }
+
+    @Test
+    fun `similar movie - empty`() {
+        val movie = mock<SimilarMoviesResponse>()
+        whenever(service.similarMovies(2)).thenReturn(Single.just(movie))
+
+        val result = repository.fetchSimilarMovies(2).test()
+
+        verify(service).similarMovies(2)
         assertThat(result.values()[0]).isEqualTo(movie)
     }
 }
