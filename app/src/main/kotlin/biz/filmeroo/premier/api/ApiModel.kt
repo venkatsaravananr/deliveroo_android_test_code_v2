@@ -10,5 +10,11 @@ data class ApiFilm(
     val overview: String,
     @SerializedName("poster_path") val posterPath: String,
     @SerializedName("backdrop_path") val backdropPath: String?,
-    @SerializedName("vote_average") val voteAverage: String?
+    @SerializedName("vote_average") val voteAverage: String?,
+    @SerializedName("genres") val genreIds: List<Genres>
+)
+
+data class Genres(
+    val id: Int,
+    val name: String
 )

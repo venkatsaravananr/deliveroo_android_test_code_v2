@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,17 +14,20 @@
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:elevation="4dp"
-        android:theme="@style/Filmeroo.ThemeOverlay.ActionBar" />
+        android:theme="@style/Filmeroo.ThemeOverlay.ActionBar"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/gutter">
+            android:paddingHorizontal="@dimen/gutter"
+            >
 
             <ImageView
                 android:id="@+id/film_image"
@@ -35,7 +39,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@color/colorAccent"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                />
 
             <TextView
                 android:id="@+id/film_title"
@@ -46,7 +51,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/film_image"
-                tools:text="Movie title" />
+                tools:text="Movie title"
+                />
 
             <TextView
                 android:id="@+id/film_overview"
@@ -57,7 +63,60 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/film_title"
-                tools:text="Movie overview" />
+                tools:text="Movie overview"
+                />
+
+
+            <TextView
+                android:id="@+id/similar_movie_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/Filmeroo.TextAppearance.Heading.Small"
+                app:layout_constraintEnd_toStartOf="@+id/view_all_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/film_overview"
+                android:text="Similar Movies"
+                />
+
+            <TextView
+                android:id="@+id/view_all_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/Filmeroo.TextAppearance.Body.Small"
+                android:textColor="@color/viewAll"
+                app:layout_constraintEnd_toStartOf="@+id/right_arrow"
+                app:layout_constraintStart_toEndOf="@+id/similar_movie_title"
+                app:layout_constraintTop_toTopOf="@id/similar_movie_title"
+                android:text="View All"
+                />
+
+            <ImageView
+                android:id="@+id/right_arrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_right"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/view_all_text"
+                app:layout_constraintTop_toTopOf="@id/view_all_text"
+
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/horizontal_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:overScrollMode="never"
+                android:scrollbars="horizontal"
+                android:layout_centerHorizontal="true"
+                app:layout_constraintTop_toBottomOf="@+id/similar_movie_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

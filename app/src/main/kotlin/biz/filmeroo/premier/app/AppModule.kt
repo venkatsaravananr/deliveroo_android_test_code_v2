@@ -13,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -40,14 +41,18 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(resources: Resources): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+
         return OkHttpClient.Builder()
             .addInterceptor(createAuthInterceptor(resources))
+            .addInterceptor(loggingInterceptor)
             .build()
     }
 
     private fun createAuthInterceptor(resources: Resources): Interceptor {
         return Interceptor { chain ->
-            val updatedUrl = chain.request().url().newBuilder()
+            val updatedUrl = chain.request().url.newBuilder()
                 .addQueryParameter(FilmService.API_KEY_PARAM, resources.getString(R.string.api_key))
                 .build()
             chain.proceed(

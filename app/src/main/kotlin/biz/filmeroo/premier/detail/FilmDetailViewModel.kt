@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import biz.filmeroo.premier.api.ApiFilm
+import biz.filmeroo.premier.api.SimilarMoviesResponse
 import biz.filmeroo.premier.base.BaseViewModel
 import biz.filmeroo.premier.main.FilmRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,9 +20,12 @@ internal class FilmDetailViewModel @Inject constructor(
 
     private val filmId: Long = savedStateHandle.get<Long>(FILM_ID)!!
     private val _filmDetailState = MutableLiveData<FilmDetailState>()
+    private val _similarMoviesState = MutableLiveData<SimilarMovieState>()
 
     val filmDetailState: LiveData<FilmDetailState>
         get() = _filmDetailState
+    val similarMoviesState: LiveData<SimilarMovieState>
+        get() = _similarMoviesState
 
     init {
         addSubscription(
@@ -33,6 +37,16 @@ internal class FilmDetailViewModel @Inject constructor(
                     { _filmDetailState.value = FilmDetailState.Error }
                 )
         )
+
+        addSubscription(
+            filmRepository.fetchSimilarMovies(filmId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { _similarMoviesState.value = SimilarMovieState.Success(it) },
+                    { _similarMoviesState.value = SimilarMovieState.Error }
+                )
+        )
     }
 
     internal companion object {
@@ -42,5 +56,10 @@ internal class FilmDetailViewModel @Inject constructor(
     sealed interface FilmDetailState {
         data class Success(val film: ApiFilm) : FilmDetailState
         object Error : FilmDetailState
+    }
+
+    sealed interface SimilarMovieState {
+        data class Success(val similarMoviesResponse: SimilarMoviesResponse) : SimilarMovieState
+        object Error : SimilarMovieState
     }
 }
